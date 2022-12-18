@@ -26,6 +26,11 @@ namespace Core
         /// Time span to hit source code to see if there is changes in source code and update it.
         /// </summary>
         public static TimeSpan Reload_ComponentsNames_TimeSpan = TimeSpan.FromDays(3);
+
+        /// <summary>
+        /// Project extention name 
+        /// </summary>
+        public static string Extention_Name = "Inject Sample MudBlazor";
     }
 }
 
