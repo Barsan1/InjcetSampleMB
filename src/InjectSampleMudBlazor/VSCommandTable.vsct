@@ -14,8 +14,8 @@
         <Icon guid="ImageCatalogGuid" id="ToolWindow" />
         <CommandFlag>IconIsMoniker</CommandFlag>
         <Strings>
-          <ButtonText>My Tool Window</ButtonText>
-          <LocCanonicalName>.View.MyToolWindow</LocCanonicalName>
+          <ButtonText>Inject Sample MudBlazor</ButtonText>
+          <LocCanonicalName>.View.Inject Sample MudBlazor</LocCanonicalName>
         </Strings>
       </Button>
     </Buttons>
