@@ -10,11 +10,11 @@ using System;
 
 namespace Core.Services
 {
-    internal class ComponentsService : IDisposable
+    public class MISComponentsService : IDisposable
     {
         private HttpClient client;
         
-        public ComponentsService()
+        public MISComponentsService()
         {
             // Create new Http client 
             client= new HttpClient();
@@ -63,7 +63,21 @@ namespace Core.Services
             {
                 await sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
             }
+        }
 
+
+        public async Task<string> LoadSampleComponentAsync(string area, string sampleComponentName)
+        {
+            // Load data from http github url
+            using (HttpResponseMessage message = await client.GetAsync($"{Constants.MudBlazor_Raw_Component}{area}/Examples/{sampleComponentName}"))
+            {
+                // Throw exception if failed
+                if (!message.IsSuccessStatusCode)
+                    throw new Exception($"Status code : {message.StatusCode}, Message : {message.Content}");
+
+                // Return as string
+                return await message.Content.ReadAsStringAsync();
+            }
         }
 
 
