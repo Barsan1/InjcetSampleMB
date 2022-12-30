@@ -30,8 +30,6 @@ namespace InjectSampleMudBlazor
                         {
                             Content = sampleSon.Name,
                             HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left,
-                            Background = Brushes.Transparent,
-                            Foreground = Brushes.White,
                             Command = _sampleComponentCommand,
                             CommandParameter = new RawComponentDetails(father.ComponentsArea, sampleSon.Name)
                         });  
