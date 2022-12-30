@@ -59,7 +59,14 @@ namespace Core.Services
             sectionOrginaize.TextSections = sections;
         }
 
-
+        /// <summary>
+        /// Get current document text in visual studio and divade to sections and addetion data to perform the injection <br/>
+        /// Using (CSharp + Blazor section) <br/>
+        /// Html (Razor section) <br/>
+        /// Code (CSharp section) <br/>
+        /// </summary>
+        /// <param name="text">Current text in the document</param>
+        /// <returns>New <see cref="MISTextOrginaize"/> object</returns>
         public async Task<MISTextOrginaize> TextSectionDivderAsync(string text)
         {
             // Read string line by line
