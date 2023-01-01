@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Core.Services
 {
@@ -14,7 +15,7 @@ namespace Core.Services
         public async Task OrginazeTextInputAsync(string text, MISTextOrginaize sectionOrginaize)
         {
             _stringBuilder.Clear();
-            var sections = GenerateSectionsFromDocument();
+            var sections = GenerateSectionsForDocument();
 
             // Read string line by line
             StringReader reader = new StringReader(text);
@@ -28,12 +29,13 @@ namespace Core.Services
 
             while (!((line = await reader.ReadLineAsync()) is null))
             {
-                sectionsLinesAdded++;
-
+                if (line.Equals("") || SkipLines(currentSection, line, sectionOrginaize.MISExcludeTextOptions))
+                    continue;
+                
                 // Html section
                 if (currentSection != 1 && line.StartsWith(sectionBreaks[0]))
                 {
-                    sectionOrginaize.UsingsSection.LinesAddedToSection = sectionsLinesAdded--;
+                    sectionOrginaize.UsingsSection.LinesAddedToSection = ++sectionsLinesAdded;
                     SectionUpdated(ref sections, ref currentSection);
                     sectionsLinesAdded = 0;
                 }
@@ -41,23 +43,66 @@ namespace Core.Services
                 // C# section
                 if (currentSection != 2 && line.StartsWith(sectionBreaks[1]))
                 {
-                    sectionOrginaize.HtmlSection.LinesAddedToSection = sectionsLinesAdded--;
+                    sectionOrginaize.HtmlSection.LinesAddedToSection = ++sectionsLinesAdded;
                     SectionUpdated(ref sections, ref currentSection);
                     sectionsLinesAdded = 0;
                 }
-                
-                 _stringBuilder.AppendLine(line);
+
+                sectionsLinesAdded++;
+                _stringBuilder.AppendLine(line);
             }
 
-            // Added c# code to code section
-            sections[2] += _stringBuilder.ToString();
-            sectionOrginaize.CodeSection.LinesAddedToSection = sectionsLinesAdded--;
-
+            if (currentSection == 2)
+            {
+                // Added c# code to code section
+                sections[2] += _stringBuilder.ToString();
+                sectionOrginaize.CodeSection.LinesAddedToSection = ++sectionsLinesAdded;
+            }
+            else
+                SectionUpdated(ref sections, ref currentSection);
+            
+            
             // Dispose reader
             reader.Dispose();
 
             sectionOrginaize.TextSections = sections;
         }
+
+
+        public async Task CodeSectionOrginazeAsync(MISTextOrginaize sectionOrginaize)
+        {
+            _stringBuilder.Clear();
+
+            StringReader reader = new StringReader(sectionOrginaize.TextSections[2]);
+            int lineNumber = 0;
+            string line;
+
+            while (true) 
+            {
+                line = await reader.ReadLineAsync();
+                lineNumber++;
+
+                if ((sectionOrginaize.IsCodeSectionExist && lineNumber == 3))
+                {
+                    if (sectionOrginaize.MISExcludeTextOptions.IsAddSampleDataSection)
+                        _stringBuilder.Append(sectionOrginaize.MISExcludeTextOptions.AddSampleDataSection());
+                    
+                    continue;
+                }
+
+                if (line is null)
+                    break;
+                
+
+                _stringBuilder.AppendLine(line);
+            }
+
+            sectionOrginaize.TextSections[2] = _stringBuilder.ToString();
+            sectionOrginaize.TextSections[2] = sectionOrginaize.TextSections[2].Substring(0, sectionOrginaize.TextSections[2].LastIndexOf("}"));
+
+            reader.Dispose();
+        }
+
 
         /// <summary>
         /// Get current document text in visual studio and divade to sections and addetion data to perform the injection <br/>
@@ -85,7 +130,7 @@ namespace Core.Services
                 currentLineNum++;
 
                 // Html section
-                if (currentSection != 1 && line.StartsWith(sectionBreaks[0]))
+                if (currentSection != 1 && offsets[0] == 0 && line.StartsWith(sectionBreaks[0]))
                     offsets[0] = currentLineNum;
 
                 // C# section
@@ -99,7 +144,18 @@ namespace Core.Services
             return new MISTextOrginaize(0, offsets[0], offsets[1]);
         }
 
+        private bool SkipLines(int section, string line, MISExcludeTextOptions opt)
+        {
+            if (section == 0)
+                for (int i = 0; i < opt.Using_Exclude.Length; i++)
+                    if (line.Equals(opt.Using_Exclude[i]))
+                        return true;
 
+            if (section == 2 && !opt.IsAddSampleDataSection && line.Contains("Element"))
+                opt.IsAddSampleDataSection = true;
+
+            return false;
+        }
 
         private void SectionUpdated(ref string[] sections, ref int currentSection)
         {
@@ -108,12 +164,12 @@ namespace Core.Services
         }
 
 
-        private string[] GenerateSectionsFromDocument()
+        private string[] GenerateSectionsForDocument()
             =>  new string[3]
             {
                 "",
                 $"\n<!--{Constants.AutoGenerated_Comment}-->\n",
-                $"\n/*{Constants.AutoGenerated_Comment}*/\n"
+                $"\n\t/*{Constants.AutoGenerated_Comment}*/\n"
             };
     }
 }
