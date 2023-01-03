@@ -32,6 +32,9 @@ namespace Core.Services
                 if (line.Equals("") || SkipLines(currentSection, line, sectionOrginaize.MISExcludeTextOptions))
                     continue;
                 
+                if (line.Contains(sectionOrginaize.MISExcludeTextOptions.ModifyHttpCallToJson[0]))
+                    line = sectionOrginaize.MISExcludeTextOptions.ModifyHttpCallToJson[1];
+
                 // Html section
                 if (currentSection != 1 && line.StartsWith(sectionBreaks[0]))
                 {
