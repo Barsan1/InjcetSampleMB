@@ -88,7 +88,7 @@ namespace Core.Services
                 if ((sectionOrginaize.IsCodeSectionExist && lineNumber == 3))
                 {
                     if (sectionOrginaize.MISExcludeTextOptions.IsAddSampleDataSection)
-                        _stringBuilder.Append(sectionOrginaize.MISExcludeTextOptions.AddSampleDataSection());
+                        _stringBuilder.AppendLine(sectionOrginaize.MISExcludeTextOptions.AddSampleDataSection());
                     
                     continue;
                 }
