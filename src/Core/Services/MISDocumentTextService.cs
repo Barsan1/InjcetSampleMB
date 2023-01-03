@@ -1,9 +1,7 @@
 ﻿using Core.Models;
-using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Core.Services
 {
@@ -31,7 +29,7 @@ namespace Core.Services
             {
                 if (line.Equals("") || SkipLines(currentSection, line, sectionOrginaize.MISExcludeTextOptions))
                     continue;
-                
+
                 if (line.Contains(sectionOrginaize.MISExcludeTextOptions.ModifyHttpCallToJson[0]))
                     line = sectionOrginaize.MISExcludeTextOptions.ModifyHttpCallToJson[1];
 
