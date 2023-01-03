@@ -57,19 +57,17 @@ namespace InjectSampleMudBlazor.Commands
             if (sectionsData.CodeSection.LinesAddedToSection != 0)
             {
                 ITextSnapshotLine secondLine;
-                // TODO: Create logic method to orginaze the c sharp code section (Own method)
                 if (sectionsData.IsCodeSectionExist)
                 {
                     await misTextService.CodeSectionOrginazeAsync(sectionsData);
                     
-                    // Orginal place + html lines added + usings lines added - 1 + 2 (Actual comments)
-                    int calculatelineToAdd = sectionsData.CodeSection.SectionOffset + sectionsData.HtmlSection.LinesAddedToSection + sectionsData.UsingsSection.LinesAddedToSection + 2;
+                    // Orginal place + html lines added + usings lines added + 1
+                    int calculatelineToAdd = sectionsData.CodeSection.SectionOffset + sectionsData.HtmlSection.LinesAddedToSection + sectionsData.UsingsSection.LinesAddedToSection;
                     secondLine = docView.TextBuffer.CurrentSnapshot.GetLineFromLineNumber(calculatelineToAdd);
                 }
                 else
-                {
-                    secondLine = docView.TextBuffer.CurrentSnapshot.GetLineFromLineNumber(docView.TextBuffer.CurrentSnapshot.LineCount);
-                }
+                    secondLine = docView.TextBuffer.CurrentSnapshot.GetLineFromLineNumber(docView.TextBuffer.CurrentSnapshot.LineCount - 1);
+                
 
                 docView.TextBuffer?.Insert(secondLine.Start, sectionsData.TextSections[2]);
             }
