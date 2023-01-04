@@ -4,11 +4,16 @@
 
 Visual Studio extention to inject sample code from <a href="https://mudblazor.com/docs/overview">MudBlazor docs</a> to your razor component.
 
-This extention is in Preview now.
+### Showcase Extention :point_down:
+
+<div align="left">
+	<video src="art\Inject Sample VS Extention.mp4" width="500"/>
+</div>
+
+This extention is in **Preview** now.
 
 ## How To Install :question:
 1. Open VS 2022 and select Extentions menu  
-![Extention menu](art\Open Extentions.png)
 
 	<p align="left">
 	  <img src="art\Open Extentions.png" title="Open Extention menu">
@@ -21,7 +26,6 @@ This extention is in Preview now.
 	</p>
 
 3. Search For InjectSampleMudBlazor in search bar  
-![Search extention](art\Serach Extention.png)
 
 	<p align="left">
 	  <img src="art\Serach Extention.png" width="500" title="Open Extention menu">
