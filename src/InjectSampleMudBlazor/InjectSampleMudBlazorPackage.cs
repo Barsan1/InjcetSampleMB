@@ -9,7 +9,7 @@ namespace InjectSampleMudBlazor
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Version)]
-    [ProvideToolWindow(typeof(MyToolWindow.Pane), Style = VsDockStyle.Tabbed, Window = WindowGuids.SolutionExplorer)]
+    [ProvideToolWindow(typeof(MyToolWindow.Pane), Style = VsDockStyle.Tabbed, DockedWidth = 400, Window = WindowGuids.DocumentWell, Orientation = ToolWindowOrientation.Left)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(PackageGuids.InjectSampleMudBlazorString)]
     public sealed class InjectSampleMudBlazorPackage : ToolkitPackage
