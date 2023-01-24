@@ -41,8 +41,24 @@ namespace Core.Store
                             .Add(new ComponentSon(temp.path.Substring(temp.path.LastIndexOf('/'))));
                 }
             }
+
+            // Clean unused examples 
+            CleanUnusedExamples();
+
         }
 
-
+        /// <summary>
+        /// Clean unused examples with no real examples
+        /// </summary>
+        private void CleanUnusedExamples()
+        {
+            for (int i = 0; i < Components.Count - 1; i++)
+            {
+                if (Components.ElementAt(i).SampleComponents.Count == 0)
+                    Components.RemoveAt(i);
+                else if (Components[i].ComponentsArea == "TemplateComponent")
+                    Components.RemoveAt(i);
+            }
+        }
     }
 }
