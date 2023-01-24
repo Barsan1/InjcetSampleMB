@@ -11,7 +11,7 @@ namespace InjectSampleMudBlazor
         public const string Name = "InjectSampleMudBlazor";
         public const string Description = @"Inject sample code of components to current documentI";
         public const string Language = "en-US";
-        public const string Version = "0.0.2";
+        public const string Version = "0.0.3";
         public const string Author = "Bar San";
         public const string Tags = "MudBlazor Blazor Component extentions";
     }
