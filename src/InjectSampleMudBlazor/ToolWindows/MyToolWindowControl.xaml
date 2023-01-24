@@ -9,15 +9,27 @@
              xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
              xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
              toolkit:Themes.UseVsTheme="True"
+             xmlns:core="clr-namespace:Core.Store;assembly=Core"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
              Name="MyToolWindow">
-    <Grid>
-        <ScrollViewer>
-            <StackPanel Orientation="Vertical" x:Name="stackPanel">
-                
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+    <StackPanel>
+
+        <ComboBox ItemsSource="{Binding Source={x:Static core:ComponentsStore.Components}}"
+                  DisplayMemberPath="ComponentsArea" Margin="0 0 0 15"
+                  SelectedIndex="{Binding CurrentArea}"/>
+
+        <ListView ItemsSource="{Binding Exampels}" Margin="0 0 0 15" PreviewMouseLeftButtonUp="list_PreviewMouseLeftButtonUp">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" >
+                        <TextBlock Text="{Binding Name}" Margin="0 0 0 10">
+
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListView>
+    </StackPanel>
 </UserControl>
