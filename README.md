@@ -31,4 +31,22 @@ This extention is in **Preview** now.
 	  <img src="art\Serach Extention.png" width="500" title="Open Extention menu">
 	</p>
 
-4. Install the extentions and restart afte installation completed
+4. Install the extention and restart visual studio.
+
+## Contribution & Self Development 
+
+To building and running the project you will need:
+
+1. .NET framework 4.8
+2. .NET standard 2.0
+3. Visual Studio extension development 
+
+    Tools -> Get Tools and Features... -> Other Toolsets (section) -> Check the box Visual Studio extension development 
+4. Visual studio community toolkit https://github.com/VsixCommunity/Community.VisualStudio.Toolkit  
+
+Now you can clone and run the project in your machine.  
+Run the project with Debug option new window of visual studio experimental instance is now opend  
+if the extension is not already opend go to  
+View -> Other Windwos -> Inject Sample MudBlazor
+
+Pull Requsts are welcome!
