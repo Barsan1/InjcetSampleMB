@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -148,9 +149,14 @@ namespace Core.Services
         private bool SkipLines(int section, string line, MISExcludeTextOptions opt)
         {
             if (section == 0)
+            {
                 for (int i = 0; i < opt.Using_Exclude.Length; i++)
                     if (line.Equals(opt.Using_Exclude[i]))
                         return true;
+                
+                if (opt.Using_Exlude_Pattern.Where(x => line.StartsWith(x)).Count() > 0)
+                    return true;
+            }
 
             if (section == 2 && !opt.IsAddSampleDataSection && line.Contains("Element"))
                 opt.IsAddSampleDataSection = true;

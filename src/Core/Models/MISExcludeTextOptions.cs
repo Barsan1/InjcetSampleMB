@@ -4,8 +4,12 @@
     {
         public readonly string[] Using_Exclude =
         {
-            "@using MudBlazor.Examples.Data.Models" ,
-            "@namespace MudBlazor.Docs.Examples"
+            "@using MudBlazor.Examples.Data.Models"
+        };
+
+        public readonly string[] Using_Exlude_Pattern =
+        {
+            "@page", "@layout", "@namespace"
         };
 
         public readonly string[] ModifyHttpCallToJson =
